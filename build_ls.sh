@@ -45,7 +45,7 @@ done
 rootdir=$(pwd)
 perl -pe 's{__ROOTDIR__}{'"$rootdir"'}' > file_cmds/file_cmds.patch <<'EOF'
 diff --git file_cmds.xcodeproj/project.pbxproj file_cmds.xcodeproj/project.pbxproj
-index dcf7d02..f75ee68 100644
+index dcf7d02..5c017e9 100644
 --- file_cmds.xcodeproj/project.pbxproj
 +++ file_cmds.xcodeproj/project.pbxproj
 @@ -3514,6 +3514,11 @@
@@ -70,7 +70,7 @@ index dcf7d02..f75ee68 100644
  				WARNING_CFLAGS = (
  					"-Wall",
 diff --git ls/ls.c ls/ls.c
-index e079333..96dea16 100644
+index e079333..5deacc6 100644
 --- ls/ls.c
 +++ ls/ls.c
 @@ -75,7 +75,7 @@ __RCSID("$FreeBSD: src/bin/ls/ls.c,v 1.66 2002/09/21 01:28:36 wollman Exp $");
@@ -82,7 +82,26 @@ index e079333..96dea16 100644
  #else
  #define COMPAT_MODE(a,b) (1)
  #endif /* __APPLE__ */
-@@ -760,6 +760,12 @@ display(FTSENT *p, FTSENT *list)
+@@ -418,18 +418,6 @@ main(int argc, char *argv[])
+ 	}
+ #endif
+ 
+-	/*
+-	 * If not -F, -i, -l, -s, -t or -% options, don't require stat
+-	 * information, unless in color mode in which case we do
+-	 * need this to determine which colors to display.
+-	 */
+-	if (!f_inode && !f_longform && !f_size && !f_timesort && !f_type && !f_sizesort && !f_dataless
+-#ifdef COLORLS
+-	    && !f_color
+-#endif
+-	    )
+-		fts_options |= FTS_NOSTAT;
+-
+ 	/*
+ 	 * If not -F, -d or -l options, follow any symbolic links listed on
+ 	 * the command line.
+@@ -760,6 +748,12 @@ display(FTSENT *p, FTSENT *list)
  				cur->fts_number = NO_PRINT;
  				continue;
  			}
