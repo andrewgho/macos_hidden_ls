@@ -31,6 +31,10 @@
 # Exit on any command failing, including in pipeline
 set -e -o pipefail
 
+# Do checkouts and builds in src directory
+[ -d src ] || mkdir src
+cd src
+
 # Fetch or refresh repos from the unofficial GitHub mirror
 # TODO: it might be better to fetch from: https://opensource.apple.com/source
 for repo in file_cmds libinfo libutil xnu; do
@@ -111,4 +115,5 @@ EOF
 chmod 755 file_cmds/ls/build.sh
 
 # Run the build, and show the result
-(cd file_cmds/ls && ./build.sh) && ls -l file_cmds/ls/ls
+(cd file_cmds/ls && ./build.sh)
+(cd .. && ls -l src/file_cmds/ls/ls)
