@@ -1,0 +1,51 @@
+diff --git file_cmds.xcodeproj/project.pbxproj file_cmds.xcodeproj/project.pbxproj
+index dcf7d02..f75ee68 100644
+--- file_cmds.xcodeproj/project.pbxproj
++++ file_cmds.xcodeproj/project.pbxproj
+@@ -3514,6 +3514,11 @@
+ 					COLORLS,
+ 				);
+ 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
++				HEADER_SEARCH_PATHS = (
++					__ROOTDIR__/libinfo/membership.subproj,
++					__ROOTDIR__/libutil,
++					__ROOTDIR__/xnu,
++				);
+ 				INSTALL_PATH = /bin;
+ 			};
+ 			name = Release;
+@@ -3675,7 +3680,7 @@
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+ 				INSTALL_PATH = /usr/bin;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+-				SDKROOT = macosx.internal;
++				SDKROOT = macosx;
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 				WARNING_CFLAGS = (
+ 					"-Wall",
+diff --git ls/ls.c ls/ls.c
+index e079333..96dea16 100644
+--- ls/ls.c
++++ ls/ls.c
+@@ -75,7 +75,7 @@ __RCSID("$FreeBSD: src/bin/ls/ls.c,v 1.66 2002/09/21 01:28:36 wollman Exp $");
+ #include <sys/param.h>
+ #include <get_compat.h>
+ #include <sys/sysctl.h>
+-#include <System/sys/fsctl.h>
++#include <bsd/sys/fsctl.h>
+ #else
+ #define COMPAT_MODE(a,b) (1)
+ #endif /* __APPLE__ */
+@@ -760,6 +760,12 @@ display(FTSENT *p, FTSENT *list)
+ 				cur->fts_number = NO_PRINT;
+ 				continue;
+ 			}
++			/* Only display file with hidden flag if -a/-A set. */
++			sp = cur->fts_statp;
++			if ((sp && (sp->st_flags & UF_HIDDEN)) && !f_listdot) {
++				cur->fts_number = NO_PRINT;
++				continue;
++			}
+ 		}
+ 		if (cur->fts_namelen > maxlen)
+ 			maxlen = cur->fts_namelen;
