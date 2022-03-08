@@ -5,7 +5,7 @@
 # Apple publishes source code for BSD userland system utilities such as ls.
 # Building them on with modern MacOS and Xcode requires some tweaks to the
 # build process and to arrange for header files to be found. This script
-# automates fetching, patching, and building file_cmds/ls, tested on
+# automates fetching, patching, and building src/file_cmds/ls, tested on
 # MacOS Monterey (12.1) with Xcode 13.2.1.
 #
 # To build file_cmds interactively via Xcode IDE, see this reference:
@@ -18,7 +18,7 @@
 # * Update obsolete SDK name
 # * Fix updated header path names
 #
-# This script leaves the patch file and a build.sh file in the file_cmds
+# This script leaves the patch file and a build.sh file in the src/file_cmds
 # directory, which can then be used to iterate on and rebuild the code.
 # Regenerate a new patch file with a command like the following:
 #
@@ -26,7 +26,7 @@
 #
 # This script fetches Git repositories into the current working directory.
 # This script is not repeatable; if you run it multiple times, it will try
-# to patch the files in file_cmd twice, and probably fail.
+# to patch the files in src/file_cmd twice, and probably fail.
 
 # Exit on any command failing, including in pipeline
 set -e -o pipefail
