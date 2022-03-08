@@ -33,7 +33,7 @@ directories are treated the same as files and directories whose names begin
 with a dot: they are not shown unless the `-a` flag is passed.
 
 Apple publishes source code for BSD userland system utilities such as `ls`.
-However, bilding them on with modern MacOS and Xcode requires some tweaks to
+However, building them on with modern MacOS and Xcode requires some tweaks to
 the build process, and to arrange for header files to be found. The script
 in this repository automates fetching, patching, and building `ls`. It is
 tested on MacOS Monterey (12.1) with Xcode 13.2.1, recent as of Q1 2022.
